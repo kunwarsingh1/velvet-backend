@@ -1,0 +1,46 @@
+### Test Authentication API
+
+### 1. Register a new user
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "Test@123456"
+}
+
+### 2. Login with the registered user
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Test@123456"
+}
+
+### 3. Get current user profile (requires JWT token from login response)
+GET http://localhost:8080/api/auth/profile
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+
+### 4. Access protected NetWorth endpoint (requires JWT token)
+GET http://localhost:8080/api/networth/1234
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+
+### 5. Register an admin user (for testing admin endpoints)
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "email": "admin@example.com",
+  "password": "Admin@123456"
+}
+
+### 6. Access admin endpoint (requires ADMIN role - will fail with USER role)
+GET http://localhost:8080/api/admin/users
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+
+### 7. Logout
+POST http://localhost:8080/api/auth/logout
+Authorization: Bearer YOUR_JWT_TOKEN_HERE

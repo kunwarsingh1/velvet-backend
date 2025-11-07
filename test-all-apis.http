@@ -1,0 +1,308 @@
+### Comprehensive API Test Suite
+### Base URL
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### Variables (will be set after login)
+@token = 
+@userId = 
+
+###############################################
+### 1. AUTHENTICATION APIs
+###############################################
+
+### 1.1 Register New User
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "Test@123456"
+}
+
+### 1.2 Login User (Save the token from response)
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "testuser@example.com",
+  "password": "Test@123456"
+}
+
+### 1.3 Get Current User Profile (Protected)
+GET {{baseUrl}}/api/auth/profile
+Authorization: Bearer {{token}}
+
+### 1.4 Logout (Protected)
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer {{token}}
+
+###############################################
+### 2. USER APIs
+###############################################
+
+### 2.1 Get User Profile
+GET {{baseUrl}}/api/user/profile
+Authorization: Bearer {{token}}
+
+###############################################
+### 3. ONBOARDING APIs
+###############################################
+
+### 3.1 Onboarding Step 1 - Basic Info
+POST {{baseUrl}}/api/onboarding/step1
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "name": "John Doe",
+  "email": "testuser@example.com",
+  "mobile": "9876543210",
+  "city": "Mumbai",
+  "dateOfBirth": "1990-01-15",
+  "retirementYear": 2050
+}
+
+### 3.2 Onboarding Step 2 - Financial Info
+POST {{baseUrl}}/api/onboarding/step2
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "monthlyIncome": 100000,
+  "monthlyExpenses": 50000,
+  "currentSavings": 500000
+}
+
+### 3.3 Onboarding Step 3 - Additional Info
+POST {{baseUrl}}/api/onboarding/step3
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "riskTolerance": "moderate",
+  "investmentExperience": "intermediate",
+  "investmentHorizon": "long-term"
+}
+
+### 3.4 Onboarding Step 4 - Goals
+POST {{baseUrl}}/api/onboarding/step4
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "goals": [
+    {
+      "name": "Retirement",
+      "targetAmount": 10000000,
+      "targetYear": 2050,
+      "category": "retirement"
+    },
+    {
+      "name": "Child Education",
+      "targetAmount": 2000000,
+      "targetYear": 2035,
+      "category": "education"
+    }
+  ]
+}
+
+### 3.5 Onboarding Step 5 - Assets
+POST {{baseUrl}}/api/onboarding/step5
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "assets": {
+    "cash": 100000,
+    "stocks": 200000,
+    "mutualFunds": 150000,
+    "realEstate": 5000000,
+    "gold": 100000
+  }
+}
+
+### 3.6 Onboarding Step 6 - Liabilities
+POST {{baseUrl}}/api/onboarding/step6
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "liabilities": {
+    "homeLoan": 2000000,
+    "carLoan": 500000,
+    "personalLoan": 100000,
+    "creditCard": 50000
+  }
+}
+
+### 3.7 Onboarding Step 7 - Complete
+POST {{baseUrl}}/api/onboarding/step7
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "completed": true,
+  "termsAccepted": true
+}
+
+### 3.8 Get Onboarding Summary
+GET {{baseUrl}}/api/onboarding/summary/{{userId}}
+Authorization: Bearer {{token}}
+
+###############################################
+### 4. GOALS APIs
+###############################################
+
+### 4.1 Create Goal
+# @name createGoal
+POST {{baseUrl}}/api/goals
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "goalId": "goal-1",
+  "name": "House Purchase",
+  "targetAmount": 5000000,
+  "targetYear": 2030,
+  "category": "property"
+}
+
+### 4.2 Get All User Goals
+GET {{baseUrl}}/api/goals
+Authorization: Bearer {{token}}
+
+### 4.3 Calculate Goals
+GET {{baseUrl}}/api/goals/calculate/{{userId}}?currentAge=33
+Authorization: Bearer {{token}}
+
+### 4.4 Delete Goal (use goalId from create response)
+DELETE {{baseUrl}}/api/goals/1
+Authorization: Bearer {{token}}
+
+###############################################
+### 5. MONTHLY EXPENSE APIs
+###############################################
+
+### 5.1 Calculate Monthly Expense
+POST {{baseUrl}}/api/monthly-expense/calculate
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "basicExpenses": {
+    "rent": 20000,
+    "groceries": 10000,
+    "utilities": 5000,
+    "transportation": 5000,
+    "entertainment": 5000,
+    "others": 5000
+  },
+  "emis": [
+    {
+      "name": "Home Loan",
+      "amount": 30000
+    },
+    {
+      "name": "Car Loan",
+      "amount": 15000
+    }
+  ]
+}
+
+### 5.2 Get Monthly Expenses
+GET {{baseUrl}}/api/monthly-expense
+Authorization: Bearer {{token}}
+
+###############################################
+### 6. NET WORTH APIs
+###############################################
+
+### 6.1 Get Net Worth
+GET {{baseUrl}}/api/networth/{{userId}}
+Authorization: Bearer {{token}}
+
+### 6.2 Get Portfolio Overview
+GET {{baseUrl}}/api/networth/portfolio/{{userId}}
+Authorization: Bearer {{token}}
+
+###############################################
+### 7. PORTFOLIO APIs
+###############################################
+
+### 7.1 Get Portfolio Overview
+POST {{baseUrl}}/api/portfolio/overview
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "includeAssets": true,
+  "includeLiabilities": true
+}
+
+###############################################
+### 8. FIRE (Financial Independence) APIs
+###############################################
+
+### 8.1 Calculate FIRE
+POST {{baseUrl}}/api/fire/calculate
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{userId}}",
+  "currentAge": 33,
+  "retirementAge": 60,
+  "monthlyExpenses": 50000,
+  "currentSavings": 1000000,
+  "expectedReturn": 12.0
+}
+
+### 8.2 Get User FIRE Data
+GET {{baseUrl}}/api/fire
+Authorization: Bearer {{token}}
+
+###############################################
+### 9. INSURANCE APIs
+###############################################
+
+### 9.1 Get User Insurance
+GET {{baseUrl}}/api/insurance
+Authorization: Bearer {{token}}
+
+###############################################
+### 10. LIABILITIES APIs
+###############################################
+
+### 10.1 Get User Liabilities
+GET {{baseUrl}}/api/liabilities
+Authorization: Bearer {{token}}
+
+###############################################
+### 11. PROJECTION APIs
+###############################################
+
+### 11.1 Get User Projection
+GET {{baseUrl}}/api/projection
+Authorization: Bearer {{token}}
+
+###############################################
+### HEALTH CHECK
+###############################################
+
+### Health Check (Public)
+GET {{baseUrl}}/actuator/health
+
+### Swagger UI (Public)
+# Open in browser: http://localhost:8080/swagger-ui.html

@@ -1,0 +1,50 @@
+### Monthly Expense API Tests
+### Base URL: http://localhost:8080
+
+### 1. First create some test data - Financial Info
+POST http://localhost:8080/api/onboarding/step1
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "city": "Mumbai", 
+  "mobileNumber": "9876543210",
+  "email": "test@example.com",
+  "dateOfBirth": "1990-01-01",
+  "retirementYear": 2055
+}
+
+### 2. Add Financial Info (Monthly Expenses)
+POST http://localhost:8080/api/onboarding/step2
+Content-Type: application/json
+
+{
+  "userId": "TEST123",
+  "monthlyHousing": 15000,
+  "monthlyFood": 8000,
+  "monthlyTransport": 3000,
+  "monthlyOthers": 2000
+}
+
+### 3. Add Liability Info (EMIs)
+POST http://localhost:8080/api/onboarding/step4
+Content-Type: application/json
+
+{
+  "userId": "TEST123",
+  "homeEMI": 12000,
+  "vehicleEMI": 8000,
+  "personalEMI": 3000,
+  "creditCardMinPayment": 2000
+}
+
+### 4. Test GET Monthly Expenses API
+GET http://localhost:8080/api/monthly-expense/TEST123
+
+### 5. Test POST Monthly Expenses API (existing)
+POST http://localhost:8080/api/monthly-expense/calculate
+Content-Type: application/json
+
+{
+  "userId": "TEST123"
+}

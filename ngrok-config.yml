@@ -1,0 +1,16 @@
+version: "2"
+authtoken: YOUR_NGROK_AUTH_TOKEN_HERE
+
+tunnels:
+  velvet-api:
+    addr: 8080
+    proto: http
+    bind_tls: true
+    inspect: true
+    
+  velvet-api-custom:
+    addr: 8080
+    proto: http
+    subdomain: velvet-investment-api
+    bind_tls: true
+    inspect: true

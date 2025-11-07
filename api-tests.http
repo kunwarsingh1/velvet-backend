@@ -1,0 +1,193 @@
+### Velvet Investment API Tests
+### Base URL: http://localhost:8080
+
+### 1. ONBOARDING CONTROLLER TESTS
+
+### Step 1 - User Basic Information
+POST http://localhost:8080/api/onboarding/step1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "city": "Mumbai",
+  "mobileNumber": "9876543210",
+  "email": "john.doe@example.com",
+  "dateOfBirth": "1990-05-15",
+  "retirementYear": 2055
+}
+
+### Step 2 - Monthly Expenses (use userId from step1 response)
+POST http://localhost:8080/api/onboarding/step2
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "monthlyExpenses": {
+    "housing": 25000,
+    "food": 8000,
+    "transportation": 5000,
+    "utilities": 3000,
+    "entertainment": 4000,
+    "healthcare": 2000,
+    "other": 3000
+  }
+}
+
+### Step 3 - Current Assets
+POST http://localhost:8080/api/onboarding/step3
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "currentAssets": {
+    "cash": 100000,
+    "bankDeposits": 500000,
+    "mutualFunds": 300000,
+    "stocks": 200000,
+    "realEstate": 2000000,
+    "gold": 150000,
+    "other": 50000
+  }
+}
+
+### Step 4 - Current Liabilities
+POST http://localhost:8080/api/onboarding/step4
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "currentLiabilities": {
+    "homeLoan": 1500000,
+    "carLoan": 300000,
+    "personalLoan": 100000,
+    "creditCard": 50000,
+    "other": 25000
+  },
+  "loans": [
+    {
+      "type": "Home Loan",
+      "amount": 1500000,
+      "interestRate": 8.5,
+      "tenure": 20
+    }
+  ]
+}
+
+### Step 5 - Financial Goals
+POST http://localhost:8080/api/onboarding/step5
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "goals": [
+    {
+      "name": "Child Education",
+      "targetAmount": 2000000,
+      "targetYear": 2040,
+      "priority": "High"
+    },
+    {
+      "name": "House Purchase",
+      "targetAmount": 5000000,
+      "targetYear": 2030,
+      "priority": "Medium"
+    }
+  ]
+}
+
+### Step 6 - Insurance Information
+POST http://localhost:8080/api/onboarding/step6
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "insurances": [
+    {
+      "type": "Life Insurance",
+      "coverAmount": 5000000,
+      "premium": 50000,
+      "provider": "LIC"
+    },
+    {
+      "type": "Health Insurance",
+      "coverAmount": 1000000,
+      "premium": 25000,
+      "provider": "Star Health"
+    }
+  ]
+}
+
+### Step 7 - Final Completion
+POST http://localhost:8080/api/onboarding/step7
+Content-Type: application/json
+
+{
+  "userId": "test-user-id",
+  "riskTolerance": "Moderate",
+  "investmentExperience": "Beginner",
+  "preferredInvestmentStyle": "Balanced"
+}
+
+### Get Onboarding Summary
+GET http://localhost:8080/api/onboarding/summary/test-user-id
+
+### 2. CASH FLOW CONTROLLER TESTS
+
+### Analyze Cash Flow
+POST http://localhost:8080/api/cashflow/analyze
+Content-Type: application/json
+
+{
+  "monthlySalary": 75000,
+  "monthlyExpense": 50000
+}
+
+### 3. FIRE CONTROLLER TESTS
+
+### Calculate FIRE Number
+POST http://localhost:8080/api/fire/calculate
+Content-Type: application/json
+
+{
+  "annualExpenses": 600000,
+  "currentPortfolioValue": 5000000
+}
+
+### 4. GOAL CONTROLLER TESTS
+
+### Calculate Goals (requires existing user data)
+GET http://localhost:8080/api/goals/calculate/test-user-id?currentAge=30
+
+### 5. NET WORTH CONTROLLER TESTS
+
+### Get Net Worth (requires existing user data)
+GET http://localhost:8080/api/networth/test-user-id
+
+### Get Portfolio Overview (requires existing user data)
+GET http://localhost:8080/api/networth/portfolio/test-user-id?year=2024
+
+### 6. ERROR TESTING
+
+### Test with invalid data - Cash Flow with negative values
+POST http://localhost:8080/api/cashflow/analyze
+Content-Type: application/json
+
+{
+  "monthlySalary": -1000,
+  "monthlyExpense": 50000
+}
+
+### Test with missing required fields - Step1 without name
+POST http://localhost:8080/api/onboarding/step1
+Content-Type: application/json
+
+{
+  "city": "Mumbai",
+  "email": "test@example.com"
+}
+
+### Test non-existent user
+GET http://localhost:8080/api/onboarding/summary/non-existent-user
+
+### 7. HEALTH CHECK (if available)
+GET http://localhost:8080/actuator/health
